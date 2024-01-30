@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sicknesses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->string('type');
-            $table->timestamps();
+        Schema::table('patient_medications', function (Blueprint $table) {
+            $table->unsignedBigInteger('sickness_id');
+            $table->foreign('sickness_id')->references('id')->on('sicknesses');
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sickness');
+        Schema::table('patient_medications', function (Blueprint $table) {
+            $table->dropColumn('sickness_id');
+        });
     }
 };
